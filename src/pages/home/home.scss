@@ -1,44 +1,85 @@
 .ios, .md {
 
-    page-home {
+  page-home {
 
-        ion-slide {
-            align-items: flex-start;
-        }
+    ion-slide {
+      align-items: flex-start;
+    }
 
-        ion-item {
-            margin-bottom: 5px;
-            font-size: 1.2em;
-            background-color: map-get($colors, primary);
-        }
+    ion-item {
+      margin-bottom: 5px;
+      font-size: 1.2em;
+      background-color: map-get($colors, primary);
+    }
 
-        flash-card {
-            color: #000;
+    flash-card {
+      color: #000;
 
-            img {
-                width: 70%;
-                height: auto;
-            }
-        }
+      img {
+        width: 70%;
+        height: auto;
+      }
+    }
 
-        .start-slide {
-            justify-content: center;
-            align-items: center;
+    ion-grid {
+      position: absolute;
+      bottom: 20px;
+      background-color: map-get($colors, primary);
+    }
 
-            button {
-                font-size: 1.3em;
-                font-weight: bold;
-            }
-        }
+    .start-slide, .final-slide {
+      justify-content: center;
+      align-items: center;
 
-        .correct {
-          background-color: rgba(50, 219, 100, 0.8)
-        }
+      button {
+        font-size: 1.3em;
+        font-weight: bold;
+      }
+    }
 
-        .wrong  {
-          background-color: rgba(245, 61, 61, 0.8)
-        }
+    .correct {
+      background-color: rgba(50, 219, 100, 0.8)
+    }
+
+    .wrong  {
+      background-color: rgba(245, 61, 61, 0.8)
+    }
+
+    .progress-bar {
+      text-align: left;
+      background-color: color($colors, dark);
+      height: 20px;
+      width: 80%;
+      padding-top: 2px;
+      padding-bottom: 1px;
+      padding-left: 2px;
+      padding-right: 2px;
+      margin-left: 10%;
+      margin-right: 10%;
+      box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+      border-radius: 5px;
+
+      span {
+        text-align: center;
+        display: inline-block;
+        height: 100%;
+        border-radius: 3px;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+        background-color: color($colors, secondary);
+        transition: width .4s ease-in-out;
+      }
 
     }
+
+    .new-progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      border: 0px;
+    }
+
+  }
 
 }

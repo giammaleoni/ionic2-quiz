@@ -33,6 +33,17 @@
                 {"answer": "Plane", "correct": false, "selected": false},
                 {"answer": "Truck", "correct": true, "selected": false}
             ]
+        },
+        {
+            "flashCardFront": "<div>How many fingers in one hand?</div>",
+            "flashCardBack": "Truck",
+            "flashCardFlipped": false,
+            "questionText": "Respond to the question",
+            "answers": [
+                {"answer": "5", "correct": true, "selected": false},
+                {"answer": "3", "correct": false, "selected": false},
+                {"answer": "2", "correct": false, "selected": false}
+            ]
         }
 
     ]

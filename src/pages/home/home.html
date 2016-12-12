@@ -1,45 +1,49 @@
 <ion-content>
 
-    <ion-slides #slides [options]="slideOptions">
+  <ion-slides #slides [options]="slideOptions">
 
-        <ion-slide class="start-slide">
-            <button ion-button color="primary" (click)="nextSlide()">Start!</button>
-        </ion-slide>
+    <ion-slide class="start-slide">
+      <button ion-button color="primary" (click)="nextSlide()">Start!</button>
+    </ion-slide>
 
-        <ion-slide *ngFor="let question of questions; let i = index;">
+    <ion-slide *ngFor="let question of questions; let i = index;">
 
-            <h3>Question {{i+1}}</h3>
+      <h3>Question {{i+1}}</h3>
 
-            <flash-card [isFlipped]="question.flashCardFlipped">
-                <div class="flash-card-front" [innerHTML]="question.flashCardFront"></div>
-                <div class="flash-card-back" [innerHTML]="question.flashCardBack"></div>
-            </flash-card>
+      <progress class="new-progress-bar" [value]="time" max="{{gTime}}"><span></span></progress>
 
-            <h3>{{question.questionText}}</h3>
+      <flash-card [isFlipped]="question.flashCardFlipped">
+        <div class="flash-card-front" [innerHTML]="question.flashCardFront"></div>
+        <div class="flash-card-back" [innerHTML]="question.flashCardBack"></div>
+      </flash-card>
 
-            <ion-list no-lines radio-group>
+      <h3>{{question.questionText}}</h3>
 
-                <ion-item *ngFor="let answer of question.answers; let i = index;" [ngClass]="{'correct': answer.correct && answer.selected, 'wrong': !answer.correct && answer.selected}">
-                    <ion-label>{{i+1}}. {{answer.answer}}</ion-label>
-                    <ion-radio (click)="selectAnswer(answer, question)" [checked]="answer.selected" [disabled]="hasAnswered"></ion-radio>
-                </ion-item>
+      <ion-list no-lines radio-group>
 
-            </ion-list>
+        <ion-item *ngFor="let answer of question.answers; let i = index;" [ngClass]="{'correct': answer.correct && answer.selected, 'wrong': !answer.correct && answer.selected}">
+          <ion-label>{{i+1}}. {{answer.answer}}</ion-label>
+          <ion-radio (click)="selectAnswer(answer, question)" [checked]="answer.selected" [disabled]="hasAnswered"></ion-radio>
+        </ion-item>
 
-            <div>
-              Score: {{score}}
-              Life: {{life}}  
-            </div>
+      </ion-list>
 
-        </ion-slide>
+      <ion-grid>
+        <ion-row>
+          <ion-col><ion-icon name="ios-speedometer-outline"> {{score}} </ion-icon></ion-col>
+          <ion-col><ion-icon name="heart"> {{life}}</ion-icon></ion-col>
+        </ion-row>
+      </ion-grid>
 
-        <ion-slide>
-            <h2>Final Score: {{score}}</h2>
+    </ion-slide>
 
-            <button (click)="restartQuiz()" ion-button full color="primary">Start Again</button>
+    <ion-slide class="final-slide">
+      <h2>Final Score: {{score}}</h2>
 
-        </ion-slide>
+      <button (click)="restartQuiz()" ion-button full color="primary">Start Again</button>
 
-    </ion-slides>
+    </ion-slide>
+
+  </ion-slides>
 
 </ion-content>

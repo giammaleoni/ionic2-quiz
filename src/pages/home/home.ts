@@ -8,89 +8,107 @@ import { Data } from '../../providers/data';
 })
 export class HomePage {
 
-    @ViewChild('slides') slides: any;
+  @ViewChild('slides') slides: any;
 
-    hasAnswered: boolean = false;
-    score: number = 0;
-    life: number = 3;
+  //Game constants
+  gTime: number = 30000;
+  gLife: number = 3;
+  gScore: number = 0;
 
-    slideOptions: any;
-    questions: any;
+  hasAnswered: boolean = false;
+  score: number = this.gScore;
+  life: number = this.gLife;
+  time: number = this.gTime;
+  slideOptions: any;
+  questions: any;
 
-    constructor(public navCtrl: NavController, public dataService: Data) {
+  constructor(public navCtrl: NavController, public dataService: Data) {
 
-        this.slideOptions = {
-            onlyExternal: true
-        };
+    this.slideOptions = {
+      onlyExternal: true
+    };
 
-    }
+  }
 
-    ionViewDidLoad() {
+  ionViewDidLoad() {
 
-        this.dataService.load().then((data) => {
+    this.dataService.load().then((data) => {
 
-            data.map((question) => {
+      data.map((questions) => {
 
-                let originalOrder = question.answers;
-                question.answers = this.randomizeAnswers(originalOrder);
-                return question;
+        let originalOrder = questions.answers;
+        questions.answers = this.shuffle(originalOrder);
+        return questions;
 
-            });
+      });
 
-            this.questions = data;
+      this.questions = data;
 
-        });
+    });
 
-    }
+  }
 
-    nextSlide(){
-        this.slides.slideNext();
+  nextSlide(){
+    this.slides.slideNext();
+    this.time = this.gTime;
+
+    setTimeout(() => {
+
+      var timer = setInterval(() => {
+        if(this.time != 0) {
+          this.time -=  50;
+        } else {
+          clearInterval(timer);
+          this.nextSlide();
+        }
+      }, 50)},1000);
     }
 
     selectAnswer(answer, question){
 
-        this.hasAnswered = true;
-        answer.selected = true;
-        question.flashCardFlipped = true;
+      this.hasAnswered = true;
+      answer.selected = true;
+      question.flashCardFlipped = true;
 
-        if(answer.correct){
-            this.score++;
+      if(answer.correct){
+        this.score += 3;
+      }else{
+        this.life--;
+        this.score--;
+      }
+
+      setTimeout(() => {
+
+        this.hasAnswered = false;
+        answer.selected = false;
+        question.flashCardFlipped = false;
+
+        if (this.life === 0) {
+          this.restartQuiz();
         }else{
-            this.life--;
+          this.nextSlide();
         }
 
-        setTimeout(() => {
-
-          this.hasAnswered = false;
-          answer.selected = false;
-          question.flashCardFlipped = false;
-
-          if (this.life === 0) {
-            this.restartQuiz();
-          }else{
-            this.nextSlide();
-          }
-
-        }, 3000);
+      }, 3000);
     }
 
-    randomizeAnswers(rawAnswers: any[]): any[] {
+    shuffle(rawAnswers: any[]): any[] {
 
-        for (let i = rawAnswers.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            let temp = rawAnswers[i];
-            rawAnswers[i] = rawAnswers[j];
-            rawAnswers[j] = temp;
-        }
+      for (let i = rawAnswers.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = rawAnswers[i];
+        rawAnswers[i] = rawAnswers[j];
+        rawAnswers[j] = temp;
+      }
 
-        return rawAnswers;
+      return rawAnswers;
 
     }
 
     restartQuiz(){
-        this.score = 0;
-        this.life = 3;
-        this.slides.slideTo(1, 1000);
+      this.score = this.gScore;
+      this.life = this.gLife;
+      this.slides.slideTo(1, 1000);
     }
 
-}
+  }
